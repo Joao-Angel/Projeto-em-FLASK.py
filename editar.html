@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar despesas</title>
+
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Estrutura geral */
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* Cabeçalhos */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 1.6em;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 8px;
+        }
+
+        h3 {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        h4 {
+            color: #2980b9;
+            font-size: 1.2em;
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+
+        /* Parágrafos */
+        p {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #274c5f;
+        }
+
+        /* Links */
+        a {
+            display: inline-block;
+            color: #fff;
+            background-color: #2c3e50;
+            text-decoration: none;
+            margin-right: 8px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        a:hover {
+            background-color: #1d6fa5;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Botões estilo dotted */
+        button {
+            border: 2px dashed black;
+            background-color: white;
+            color: black;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: translate(-4px, -4px);
+            border-radius: 6px;
+            box-shadow: 4px 4px 0px black;
+        }
+
+        button:active {
+            transform: translate(0px, 0px);
+            border-radius: 20px;
+            box-shadow: none;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Labels e inputs */
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">    
+    <h1>Editar despesas</h1>
+
+    <form method="POST" action="{{url_for('editar', id=despesa.id)}}">
+
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" value="{{ despesa.descricao }}" required>
+
+        <label for="valor">Valor (R$):</label>
+        <input type="number" step="0.01" id="valor" name="valor" value="{{ despesa.valor }}" required>
+
+        <label for="categoria">Categoria:</label>
+        <select id="categoria" name="categoria" required>
+            <option value="Alimentação" {% if despesa.categoria == 'Alimentação' %}selected{% endif %}>Alimentação</option>
+            <option value="Transporte" {% if despesa.categoria == 'Transporte' %}selected{% endif %}>Transporte</option>
+            <option value="Lazer" {% if despesa.categoria == 'Lazer' %}selected{% endif %}>Lazer</option>
+            <option value="Outros" {% if despesa.categoria == 'Outros' %}selected{% endif %}>Outros</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Salvar alterações</button>
+    </form>
+    <br>
+    
+    <a href="{{ url_for('home') }}">Voltar</a>
+</div>
+</body>
+</html>
