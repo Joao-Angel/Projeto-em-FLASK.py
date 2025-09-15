@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de gastos</title>
+    
+    <style>
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/*  Estrutura geral  */
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Cabeçalhos */
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2.2em;
+}
+
+h2 {
+    color: #34495e;
+    font-size: 1.6em;
+    margin-top: 25px;
+    border-left: 4px solid #3498db;
+    padding-left: 8px;
+}
+
+h3 {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+h4 {
+    color: #2980b9;
+    font-size: 1.2em;
+    margin-top: 20px;
+    text-decoration: underline;
+}
+
+/*  Parágrafos  */
+p {
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    color: #274c5f;
+}
+
+/*  Links  */
+a {
+    display: inline-block;   /* faz o link se comportar como botão */
+    color: #fff;             /* cor do texto */
+    background-color: #2c3e50; 
+    text-decoration: none;
+    margin-right: 8px;
+    padding: 8px 14px;       /* espaço interno para dar corpo ao botão */
+    border-radius: 20px;     /* cantos arredondados */
+    transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+    background-color: #1d6fa5;
+    color: #fff;
+    text-decoration: none;
+}
+
+/*  Botões estilo dotted */
+button {
+    border: 2px dashed black;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    transform: translate(-4px, -4px);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px black;
+}
+
+button:active {
+    transform: translate(0px, 0px);
+    border-radius: 20px;
+    box-shadow: none;
+}
+
+/*  Listas  */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+li {
+    background: white;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Container principal */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Bem vindo ao Controle de gastos!</h1>
+    
+    <p>Aqui você poderá acompanhar suas despesas.</p>
+
+    <a href="{{url_for('adicionar')}}">Adicionar nova despesa</a><br>
+
+    <h2>Despesas cadastradas:</h2>
+    {% if despesas %}
+        <ul>
+        {% for despesa in despesas %}
+            <li>
+                <a href="{{ url_for('detalhe', id=despesa.id) }}">
+                    {{ despesa.descricao }} - R${{ "%.2f"|format(despesa.valor) }}
+                </a>
+                <a href="{{ url_for('editar', id=despesa.id) }}">Editar</a>
+                <form action="{{ url_for('remover', id=despesa.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Remover</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h3>Nenhuma despesa cadastrada.</h3>
+    {% endif %}
+
+    <h2>Total gasto: R${{ "%.2f"|format(total) }}</h2>
+
+    <h4>Gastos por categoria:</h4>
+    <ul>
+    {% for cat, valor in categorias.items() %}
+        <li>{{ cat }}: R${{ "%.2f"|format(valor) }}</li>
+    {% endfor %}
+    </ul>
+</div>
+</body>    
+</html>
